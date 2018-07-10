@@ -33,9 +33,16 @@ bool webpage_load(void) {
   if(data == NULL) { return false; }
   eeprom_read(EEPROM1_I2C_ADDRESS, EEPROM_SIZE-2, &data, 2);
   len = (data[0] << 8) | data[1];
-  Serial.println(len, DEC);
+  //Serial.println(len, DEC);
   form = (char*)malloc(len+1);
-  Serial.println("Malloc");
+  Serial.print("Reading file from EEPROM!");
+  Serial.println(" ");
+  Serial.print("Size: ");
+  Serial.print(len,DEC);
+  Serial.println("kb");
+  Serial.println("Memory allocated ");
+  
+  
   if(form == NULL) { free(data); return false; }
   for(int i=0; i<len; i+=4) {
       if (i < EEPROM_SIZE){
@@ -48,8 +55,7 @@ bool webpage_load(void) {
       }
   }
   Serial.println("Done reading");
-  Serial.println("Webpage loaded from EEPROM.");
-  form[len] = '\0';
+   form[len] = '\0';
   free(data);
   return true;
 }
